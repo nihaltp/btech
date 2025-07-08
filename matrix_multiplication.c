@@ -35,7 +35,7 @@ int main() {
     }
     
     int B[P][Q];
-    printf("Enter the elements of Matrix B (%d X %d): \n", P, Qs);
+    printf("Enter the elements of Matrix B (%d X %d): \n", P, Q);
     for (int i = 0; i < P; i++) {
         printf("\t");
         for (int j = 0; j < Q; j++) {
