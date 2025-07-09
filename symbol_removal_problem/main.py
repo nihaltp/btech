@@ -3,7 +3,7 @@ string = input("\033[92mEnter the string to process: ")
 def remover(string,num, k):
     string = string[:num] + string[num+1:]  # remove the character at index num
     
-    if string[num] == " ":
+    if num < len(string) and string[num] == " ":
         num += 1 # skip the space at index num
     
     while k >= 1 and num < len(string):
