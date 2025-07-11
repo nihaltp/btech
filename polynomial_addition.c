@@ -13,14 +13,37 @@ struct polynomial {
     int exp; // Exponent
 };
 
-struct polynomial p[] = {{4, 5}, {3, 4}, {1, 2}};
-struct polynomial q[] = {{3, 4}, {4, 3}, {2, 2}, {5, 1}, {3, 0}};
-
-const int m = 3; // Number of terms in polynomial p
-const int n = 5; // Number of terms in polynomial q
-
 int main() {
+    int m, n;
+    
+    printf("\033[92mEnter the number of terms of first polynomial: ");
+    scanf("%d", &m);
+    printf("\nEnter the number of terms of second polynomial: ");
+    scanf("%d", &n);
+    
+    if (m <= 0 || n <= 0) {
+        printf("\nThe number of exponents must be more than or equal to 1\033[0m");
+        return 0;
+    }
+    
+    struct polynomial p[m];
+    struct polynomial q[n];
     struct polynomial r[m + n];
+    
+    for (int i = 0; i < m; i++) {
+        printf("\nEnter the coefficient of polynomial1[%d]: ", i + 1);
+        scanf("%d", &p[i].cof);
+        printf("Enter the exponent of polynomial1[%d]: ", i + 1);
+        scanf("%d", &p[i].exp);
+    }
+    
+    for (int i = 0; i < n; i++) {
+        printf("\nEnter the coefficient of polynomial2[%d]: ", i + 1);
+        scanf("%d", &q[i].cof);
+        printf("Enter the exponent of polynomial2[%d]: ", i + 1);
+        scanf("%d", &q[i].exp);
+    }
+    
     int i = 0, j = 0, k = 0;
     
     while (i < m && j < n) {
@@ -30,13 +53,13 @@ int main() {
             i++; j++; k++;
         }
         
-        if (p[i].exp > q[j].exp) {
+        else if (p[i].exp > q[j].exp) {
             r[k].exp = p[i].exp;
             r[k].cof = p[i].cof;
             i++; k++;
         }
         
-        if (p[i].exp < q[j].exp) {
+        else if (p[i].exp < q[j].exp) {
             r[k].exp = q[j].exp;
             r[k].cof = q[j].cof;
             j++; k++;
@@ -55,12 +78,17 @@ int main() {
         j++; k++;
     }
     
-    printf("\nResultant Polynomial: ");
-    for (int i = 0; i < k; i++) {
-        if (i == k - 1) {
+    printf("\n-----RESULTANT POLYNOMIAL-----\n");
+    for(int i = 0; i < k; i++) {
+        if (r[i].cof != 0) {
             printf("%dx^%d", r[i].cof, r[i].exp);
-        } else {
-            printf("%dx^%d + ", r[i].cof, r[i].exp);
+            if (i < k - 1) {
+                printf(" + ");
+            }
         }
     }
+    
+    printf("\n\n\033[0m");
+    
+    return 0;
 }
