@@ -16,9 +16,9 @@ struct polynomial {
 int main() {
     int m, n;
     
-    printf("\033[92mEnter the number of terms of first polynomial: ");
+    printf("\033[92mEnter the number of terms of first polynomial: \033[94m");
     scanf("%d", &m);
-    printf("\nEnter the number of terms of second polynomial: ");
+    printf("\n\033[92mEnter the number of terms of second polynomial: \033[94m");
     scanf("%d", &n);
     
     if (m <= 0 || n <= 0) {
@@ -30,18 +30,20 @@ int main() {
     struct polynomial q[n];
     struct polynomial r[m + n];
     
+    printf("\n\033[91mEnter the parts of polynomial 1 and polynomial 2 in the format: coefficient exponent");
+    printf("\ne.g., for 2x^3, enter '2 3'\033[92m\n");
+    
+    printf("\n\033[93m-----INPUT POLYNOMIALS-----\033[92m\n");
+    printf("\n");
     for (int i = 0; i < m; i++) {
-        printf("\nEnter the coefficient of polynomial1[%d]: ", i + 1);
-        scanf("%d", &p[i].cof);
-        printf("Enter the exponent of polynomial1[%d]: ", i + 1);
-        scanf("%d", &p[i].exp);
+        printf("\033[92mEnter the part %d of polynomial 1: \033[94m", i + 1);
+        scanf("%d %d", &p[i].cof, &p[i].exp);
     }
     
+    printf("\n");
     for (int i = 0; i < n; i++) {
-        printf("\nEnter the coefficient of polynomial2[%d]: ", i + 1);
-        scanf("%d", &q[i].cof);
-        printf("Enter the exponent of polynomial2[%d]: ", i + 1);
-        scanf("%d", &q[i].exp);
+        printf("\033[92mEnter the part %d of polynomial 2: \033[94m", i + 1);
+        scanf("%d %d", &q[i].cof, &q[i].exp);
     }
     
     int i = 0, j = 0, k = 0;
@@ -54,36 +56,30 @@ int main() {
         }
         
         else if (p[i].exp > q[j].exp) {
-            r[k].exp = p[i].exp;
-            r[k].cof = p[i].cof;
-            i++; k++;
+            r[k++] = p[i++];
         }
         
         else if (p[i].exp < q[j].exp) {
-            r[k].exp = q[j].exp;
-            r[k].cof = q[j].cof;
-            j++; k++;
+            r[k++] = q[j++];
         }
     }
     
     while (i < m) {
-        r[k].exp = p[i].exp;
-        r[k].cof = p[i].cof;
-        i++; k++;
+        r[k++] = p[i++];
     }
     
     while (j < n) {
-        r[k].exp = q[j].exp;
-        r[k].cof = q[j].cof;
-        j++; k++;
+        r[k++] = q[j++];
     }
     
-    printf("\n-----RESULTANT POLYNOMIAL-----\n");
+    printf("\n\033[93m-----RESULTANT POLYNOMIAL-----\033[92m\n");
     for(int i = 0; i < k; i++) {
         if (r[i].cof != 0) {
             printf("%dx^%d", r[i].cof, r[i].exp);
-            if (i < k - 1) {
-                printf(" + ");
+            if (r[i + 1].cof  > 0 && i < k - 1) {
+                printf(" +");
+            } else if (i < k - 1) {
+                printf(" ");
             }
         }
     }
