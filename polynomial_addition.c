@@ -13,6 +13,20 @@ struct polynomial {
     int exp; // Exponent
 };
 
+void sort(const int n, struct polynomial s[n]) {
+    struct polynomial t;
+    
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (s[j + 1].exp > s[j].exp) {
+                t = s[j + 1];
+                s[j + 1] = s[j];
+                s[j] = t;
+            }
+        }
+    }
+}
+
 int main() {
     int m, n;
     
@@ -45,6 +59,9 @@ int main() {
         printf("\033[92mEnter the part %d of polynomial 2: \033[94m", i + 1);
         scanf("%d %d", &q[i].cof, &q[i].exp);
     }
+    
+    sort(m, p);
+    sort(n, q);
     
     int i = 0, j = 0, k = 0;
     
