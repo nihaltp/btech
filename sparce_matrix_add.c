@@ -43,21 +43,29 @@ void arrayPrint(struct sparse_matrix a[], char text[]) {
     printf("\033[0m");
 }
 
-#define m 3 // Number of rows in the matrix
-#define n 4 // Number of columns in the matrix
-
 int main () {
-    int A[m][n] = {
-        {0, 10, 0, 20},
-        {0, 0, 30, 0},
-        {0, 40, 0, 50}
-    };
+    int m, n;
     
-    int B[m][n] = {
-        {0, 60, 0, 0},
-        {0, 0, 0, 70},
-        {80, 0, 90, 0}
-    };
+    printf("\033[92mEnter dimensions of matrices (M N): \033[94m");
+    scanf("%d %d", &m, &n);
+    
+    int A[m][n];
+    printf("\033[92mEnter the elements of Matrix A (%d X %d): \n\033[94m", m, n);
+    for (int i = 0; i < m; i++) {
+        printf("\t");
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &A[i][j]);
+        }
+    }
+    
+    int B[m][n];
+    printf("\033[92mEnter the elements of Matrix B (%d X %d): \n\033[94m", m, n);
+    for (int i = 0; i < m; i++) {
+        printf("\t");
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &B[i][j]);
+        }
+    }
     
     struct sparse_matrix p[6]; // Array to store sparse matrix A
     struct sparse_matrix q[5]; // Array to store sparse matrix B
