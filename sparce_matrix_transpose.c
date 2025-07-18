@@ -14,26 +14,53 @@ struct sparse_matrix {
     int val; // Value
 };
 
-int m = 3; // Number of rows in the sparse matrix
-int n = 4; // Number of columns in the sparse matrix
-
-int A[3][4] = {
-    {0, 10, 0, 20},
-    {0, 0, 30, 0},
-    {0, 40, 0, 50}
-};
-
 void arrayPrint(struct sparse_matrix a[], char text[]) {
-    printf("\033[92m%s\n", text);
+    printf("\033[92m\n%s\n", text);
     printf("Row\tColumn\tValue\n");
-    for (int i = 0; i < a[0].val; i++) {
+    printf("%d\t%d\t%d\n", a[0].row, a[0].col, a[0].val);
+    printf("-\t-\t-\n");
+    for (int i = 1; i <= a[0].val; i++) {
         printf("%d\t%d\t%d\n", a[i].row, a[i].col, a[i].val);
     }
     printf("\033[0m");
 }
 
+void matrixPrint(struct sparse_matrix a[], char text[]) {
+    printf("\033[92m%s\n", text);
+    int i = 1, j = 0;
+    if (a[0].row == 0 || a[0].col == 0) {
+        printf("Empty Matrix\n");
+        return;
+    }
+    while (i <= a[0].val) {
+        if (j++ < (a[i].row * a[0].col) + a[i].col) {
+            printf("0 ");
+        } else {
+            printf("%d ", a[i++].val);
+        }
+        if (j % a[0].col == 0) {
+            printf("\n");
+        }
+    }
+    printf("\033[0m");
+}
+
 int main () {
-    struct sparse_matrix s[6]; // Array to store sparse matrix elements
+    int m, n;
+    
+    printf("\033[92mEnter dimensions of matrices (M N): \033[94m");
+    scanf("%d %d", &m, &n);
+    
+    int A[m][n];
+    printf("\033[92mEnter the elements of Matrix A (%d X %d): \n\033[94m", m, n);
+    for (int i = 0; i < m; i++) {
+        printf("\t");
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &A[i][j]);
+        }
+    }
+    
+    struct sparse_matrix s[(m * n) + 1]; // Array to store sparse matrix elements
     int k = 1; // Index for the sparse matrix array
     
     for (int i = 0; i < m; i++) {
@@ -53,15 +80,15 @@ int main () {
     
     arrayPrint(s, "Sparse Matrix Representation:");
     
-    struct sparse_matrix t[6]; // Array to store transpose of matrix
+    struct sparse_matrix t[(m * n) + 1]; // Array to store transpose of matrix
     k = 1; // Index for the transpose array
     
     for (int i = 0; i < s[0].col + 1; i++) {
-        for (int j = 0; j < s[0].val; j++) {
-            if (s[j + 1].col == i) {
-                t[k].row = s[j + 1].col;
-                t[k].col = s[j + 1].row;
-                t[k].val = s[j + 1].val;
+        for (int j = 1; j <= s[0].val; j++) {
+            if (s[j].col == i) {
+                t[k].row = s[j].col;
+                t[k].col = s[j].row;
+                t[k].val = s[j].val;
                 k++;
             }
         }
@@ -72,6 +99,7 @@ int main () {
     t[0].val = s[0].val;
     
     arrayPrint(t, "Transpose Representation:");
+    matrixPrint(t, "Transpose Matrix:");
     
     return 0;
 }
