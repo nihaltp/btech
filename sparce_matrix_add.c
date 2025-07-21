@@ -1,9 +1,10 @@
 /*
-  Write a C program to find sum of two sparse matrices.
-  
-  Made by: NIHAL T P
-  GitHub: https://github.com/nihaltp
-  LinkedIn: https://www.linkedin.com/in/nihal-tp/
+    Write a C program to find sum of two sparse matrices.
+    
+    Made by: NIHAL T P
+    GitHub: https://github.com/nihaltp
+    LinkedIn: https://www.linkedin.com/in/nihal-tp/
+    
 */
 
 #include <stdio.h>
@@ -67,9 +68,9 @@ int main () {
         }
     }
     
-    struct sparse_matrix p[6]; // Array to store sparse matrix A
-    struct sparse_matrix q[5]; // Array to store sparse matrix B
-    struct sparse_matrix r[10]; // Array to store resultant sparse matrix
+    struct sparse_matrix p[(m * n) + 1]; // Array to store sparse matrix A
+    struct sparse_matrix q[(m * n) + 1]; // Array to store sparse matrix B
+    struct sparse_matrix r[(m * n) + 1]; // Array to store resultant sparse matrix
     
     findSparse(m, n, A, p);
     arrayPrint(p, "Sparse Matrix Representation of A:");
