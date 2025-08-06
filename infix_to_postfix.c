@@ -1,5 +1,5 @@
 /*
-    Write a C program to convert infix equations to postfix.
+    Write a C program to convert infix equations to postfix, then evaluate the postfix equation.
     
     Made by: NIHAL T P
     GitHub: https://github.com/nihaltp
@@ -22,6 +22,15 @@ struct map symbols[6] = {
     {'^', 6, 5},
     {'(', 7, 0}
 };
+
+int power(int base, int exp) {
+    if (exp == 0) return 1;
+    
+    for (int i = 0; i < exp - 1; i++) {
+        base *= base;
+    }
+    return base;
+}
 
 int value(char s, char v) {
     for (int i = 0; i < 6; i++) {
@@ -98,19 +107,90 @@ int main() {
     // mark the end of string
     postfix[--j] = '\0';
     
+    int len = 0;
     // Remove extra spaces
-    for (int l = 0; l < j; l++) {
-        if (postfix[l] == ' ' && postfix[l + 1] == ' ') {
-            for (int m = l; m < j - 1; m++) {
+    for (;len < j; len++) {
+        if (postfix[len] == ' ' && postfix[len + 1] == ' ') {
+            for (int m = len; m < j - 1; m++) {
                 postfix[m] = postfix[m + 1];
             }
             j--;
-            l--;
+            len--;
         }
     }
     
     printf("\n\033[92mInfix: \033[93m%s", infix);
     printf("\n\033[92mPostfix: \033[93m%s\033[0m\n", postfix);
+    
+    // MARK: Evaluation
+    
+    for(int i = 0; i < len; i++) {
+        if ((postfix[i] >= '0' && postfix[i] <= '9') || postfix[i] == '+' || postfix[i] == '-' || postfix[i] == '*' || postfix[i] == '/' || postfix[i] == '^' || postfix[i] == ' ') {
+            continue;
+        } else {
+            printf("Stopping postfix evaluation due to invalid character: %c\n", postfix[i]);
+            return 0;
+        }
+    }
+    
+    int num[50];
+    int numTop = 0;
+    int p = 0;
+    num[numTop] = 0;
+    
+    int lastWasDigit = 0;
+    for(int i = 0; i < len; i++) {
+        if (postfix[i] == ' ') {
+            if (lastWasDigit) {
+                numTop++;
+                num[numTop] = 0;
+                lastWasDigit = 0;
+            }
+            continue;
+        }
+        
+        if (postfix[i] >= '0' && postfix[i] <= '9') {
+            num[numTop] = num[numTop] * 10 + (postfix[i] - '0');
+            lastWasDigit = 1;
+            continue;
+        }
+        
+        if (postfix[i] == '+' || postfix[i] == '-' || postfix[i] == '*' || postfix[i] == '/' || postfix[i] == '^') {
+            switch (postfix[i])
+            {
+            case '+':
+                num[numTop - 2] = num[numTop - 2] + num[numTop - 1];
+                numTop--;
+                break;
+            
+            case '-':
+                num[numTop - 2] = num[numTop - 2] - num[numTop - 1];
+                numTop--;
+                break;
+            
+            case '*':
+                num[numTop - 2] = num[numTop - 2] * num[numTop - 1];
+                numTop--;
+                break;
+            
+            case '/':
+                num[numTop - 2] = num[numTop - 2] / num[numTop - 1];
+                numTop--;
+                break;
+            
+            case '^':
+                num[numTop - 2] = power(num[numTop - 2], num[numTop - 1]);
+                numTop--;
+                break;
+            
+            default:
+                printf("Error, character: %c", postfix[i]);
+            }
+            lastWasDigit = 0;
+        }
+    }
+    
+    printf("\n\033[92mResult: \033[93m%d\033[0m\n", num[0]);
     
     return 0;
 }
