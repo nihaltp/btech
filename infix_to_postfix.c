@@ -77,7 +77,7 @@ int main() {
         }
         else {
             // pop everything in stack until the current operator can be appended into the stack
-            while (value(stack[k - 1], 's') > value(infix[i], 's')) {
+            while (value(stack[k - 1], 's') >= value(infix[i], 's')) {
                 postfix[j++] = ' ';
                 postfix[j++] = stack[--k];
             }
