@@ -73,9 +73,13 @@ int main() {
         }
         // if it is a operator, check if it should go to the stack
         else if (value(stack[k - 1], 's') < value(infix[i], 'c')) {
+            postfix[j++] = ' '; // Add a space for sepration
             stack[k++] = infix[i++];
         }
         else {
+            // Add a space for sepration
+            postfix[j++] = ' ';
+            
             // pop everything in stack until the current operator can be appended into the stack
             while (value(stack[k - 1], 's') >= value(infix[i], 's')) {
                 postfix[j++] = ' ';
